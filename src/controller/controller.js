@@ -1,6 +1,6 @@
 import { Transform } from 'node:stream';
 
-import { printCurrentDirectory, upDirectory, setCurrentDirectory } from '../directory/directory.js';
+import { printCurrentDirectory, upDirectory, setCurrentDirectory, listSortedDir } from '../directory/directory.js';
 
 const COMMAND_DELIMITER = ' ';
 const COMMAND_INDEX = 0;
@@ -10,6 +10,7 @@ const COMMANDS = {
   EXIT: '.exit',
   UP_DIR: 'up',
   CHANGE_DIR: 'cd',
+  LIST_DIR: 'ls',
 }
 
 class Controller extends Transform {
@@ -34,6 +35,10 @@ class Controller extends Transform {
           break;
         case COMMANDS.CHANGE_DIR: 
           await setCurrentDirectory(commandArgs[FIRST_ARGS_INDEX]);
+          printCurrentDirectory();
+          break;
+        case COMMANDS.LIST_DIR: 
+          await listSortedDir();
           printCurrentDirectory();
           break;
       }
