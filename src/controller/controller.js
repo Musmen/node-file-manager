@@ -1,6 +1,6 @@
 import { Transform } from 'node:stream';
 
-import {printCurrentDirectory, upDirectory} from '../directory/directory.js';
+import {printCurrentDirectory, upDirectory, setCurrentPath} from '../directory/directory.js';
 
 const COMMAND_DELIMITER = ' ';
 const COMMAND_INDEX = 0;
@@ -10,7 +10,7 @@ class Controller extends Transform {
     super();
   }
 
-  _transform(chunk, _, callback) {
+  async _transform(chunk, _, callback) {
     let command;
     try {
       const chunkNormalizedString = chunk.toString('utf8').trim();
@@ -22,11 +22,12 @@ class Controller extends Transform {
           process.exit();
           break;
         case 'up':
-          upDirectory();
+          await upDirectory();
           printCurrentDirectory();
           break;
         case 'cd': 
-          console.log('cd');
+          await setCurrentPath(commandArgs[1]);
+          printCurrentDirectory();
           break;
       }
     } catch(error) {
