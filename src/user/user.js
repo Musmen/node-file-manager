@@ -7,6 +7,8 @@ const getUserName = () => process.argv
   .filter(argument => argument.startsWith(USER_NAME_ARGUMENT_PREFIX))
   .map(argument => argument.slice(USER_NAME_ARGUMENT_PREFIX.length))[FIRST_USER_INDEX];
 
+export const currentUserName = getUserName();
+
 const USER_GREETINGS_PREFIX = 'Welcome to the File Manager';
 
-export const printUserGreetings = () => console.log(`${USER_GREETINGS_PREFIX}, ${getUserName()}`);
+export const printUserGreetings = (userName = currentUserName) => console.log(`${USER_GREETINGS_PREFIX}, ${userName}`);
