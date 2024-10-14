@@ -12,3 +12,8 @@ export const currentUserName = getUserName();
 const USER_GREETINGS_PREFIX = 'Welcome to the File Manager';
 
 export const printUserGreetings = (userName = currentUserName) => console.log(`${USER_GREETINGS_PREFIX}, ${userName}`);
+
+const USER_GOODBYE_PREFIX = 'Thank you for using File Manager';
+const USER_GOODBYE_POSTFIX = 'goodbye!';
+
+export const printUserGoodbye = (userName = currentUserName) => console.log(`${USER_GOODBYE_PREFIX}, ${userName}, ${USER_GOODBYE_POSTFIX}`);
