@@ -1,0 +1,13 @@
+{
+  "name": "node-file-manager",
+  "version": "1.0.0",
+  "description": "This repository is the solution to the assignment https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/file-manager/assignment.md",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "Musmen",
+  "license": "ISC"
+}
