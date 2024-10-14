@@ -8,7 +8,7 @@ const CURRENT_DIRECTORY_PREFIX = 'You are currently in';
 export const printCurrentDirectory = 
   (directory = currentDirectory) => console.log(`${CURRENT_DIRECTORY_PREFIX} ${directory}`);
 
-export const setCurrentPath = async (newPath) => {
+export const setCurrentDirectory = async (newPath) => {
   const normalizedPath = path.normalize(newPath);
   const resolvedPath = path.isAbsolute(normalizedPath)
     ? normalizedPath
@@ -17,4 +17,4 @@ export const setCurrentPath = async (newPath) => {
   currentDirectory = await fsPromisesRealpath(resolvedPath);
 }
 
-export const upDirectory = async () => await setCurrentPath(path.dirname(currentDirectory));
+export const upDirectory = async () => await setCurrentDirectory(path.dirname(currentDirectory));

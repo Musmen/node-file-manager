@@ -1,9 +1,16 @@
 import { Transform } from 'node:stream';
 
-import {printCurrentDirectory, upDirectory, setCurrentPath} from '../directory/directory.js';
+import { printCurrentDirectory, upDirectory, setCurrentDirectory } from '../directory/directory.js';
 
 const COMMAND_DELIMITER = ' ';
 const COMMAND_INDEX = 0;
+const FIRST_ARGS_INDEX = 1;
+
+const COMMANDS = {
+  EXIT: '.exit',
+  UP_DIR: 'up',
+  CHANGE_DIR: 'cd',
+}
 
 class Controller extends Transform {
   constructor() {
@@ -18,15 +25,15 @@ class Controller extends Transform {
       command = commandArgs[COMMAND_INDEX];
 
       switch (command) {
-        case '.exit': 
+        case COMMANDS.EXIT: 
           process.exit();
           break;
-        case 'up':
+        case COMMANDS.UP_DIR:
           await upDirectory();
           printCurrentDirectory();
           break;
-        case 'cd': 
-          await setCurrentPath(commandArgs[1]);
+        case COMMANDS.CHANGE_DIR: 
+          await setCurrentDirectory(commandArgs[FIRST_ARGS_INDEX]);
           printCurrentDirectory();
           break;
       }
