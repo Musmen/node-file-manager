@@ -6,13 +6,17 @@ import { readFileToConsole, createFile, renameFile, copyFile } from '../fs-opera
 
 const COMMANDS = {
   EXIT: '.exit',
-  UP_DIR: 'up',
-  CHANGE_DIR: 'cd',
-  LIST_DIR: 'ls',
-  READ_FILE: 'cat',
-  CREATE_FILE: 'add',
-  RENAME_FILE: 'rn',
-  COPY_FILE: 'cp',
+  DIR: {
+    UP: 'up',
+    CHANGE: 'cd',
+    LIST: 'ls'
+  },
+  FILE: {
+    READ: 'cat',
+    CREATE: 'add',
+    RENAME: 'rn',
+    COPY: 'cp'
+  }
 }
 
 class Controller extends Transform {
@@ -28,25 +32,25 @@ class Controller extends Transform {
         case COMMANDS.EXIT:
           process.exit();
           break;
-        case COMMANDS.UP_DIR:
+        case COMMANDS.DIR.UP:
           await directoryController.upDirectory();
           break;
-        case COMMANDS.CHANGE_DIR:
+        case COMMANDS.DIR.CHANGE:
           await directoryController.setNewCurrentDirectory(firstArg);
           break;
-        case COMMANDS.LIST_DIR:
+        case COMMANDS.DIR.LIST:
           await directoryController.listSortedDirectory();
           break;
-        case COMMANDS.READ_FILE:
+        case COMMANDS.FILE.READ:
           await readFileToConsole(firstArg, directoryController.getCurrentDirectory());
           break;
-        case COMMANDS.CREATE_FILE:
+        case COMMANDS.FILE.CREATE:
           await createFile(firstArg, directoryController.getCurrentDirectory());
           break;
-        case COMMANDS.RENAME_FILE:
+        case COMMANDS.FILE.RENAME:
           await renameFile(firstArg, secondArg, directoryController.getCurrentDirectory());
           break;
-        case COMMANDS.COPY_FILE:
+        case COMMANDS.FILE.COPY:
           await copyFile(firstArg, secondArg, directoryController.getCurrentDirectory());
           break;
       }
