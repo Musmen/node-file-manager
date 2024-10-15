@@ -9,7 +9,7 @@ const COMMANDS = {
   UP_DIR: 'up',
   CHANGE_DIR: 'cd',
   LIST_DIR: 'ls',
-  COPY_FILE: 'cat',
+  READ_FILE: 'cat',
   CREATE_FILE: 'add',
   RENAME_FILE: 'rn',
 }
@@ -36,7 +36,7 @@ class Controller extends Transform {
         case COMMANDS.LIST_DIR:
           await directoryController.listSortedDirectory();
           break;
-        case COMMANDS.COPY_FILE:
+        case COMMANDS.READ_FILE:
           await readFileToConsole(firstArg, directoryController.getCurrentDirectory());
           break;
         case COMMANDS.CREATE_FILE:
