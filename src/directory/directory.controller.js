@@ -15,7 +15,7 @@ export class DirectoryController {
   getCurrentDirectory = () => this.currentDirectory;
 
   setNewCurrentDirectory = async (newPath) => {
-    const absoluteNewPath = await getAbsolutePath(newPath, this.currentDirectory);
+    const absoluteNewPath = getAbsolutePath(newPath, this.currentDirectory);
     if (!(await fsPromisesStat(absoluteNewPath)).isDirectory()) throw new Error(ERRORS_MESSAGES.OPERATION);
     this.currentDirectory = absoluteNewPath;
   }
