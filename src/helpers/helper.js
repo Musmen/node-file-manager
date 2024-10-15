@@ -15,12 +15,12 @@ const getPathStats = async (sourcePath) => await fsPromisesStat(sourcePath);
 
 export const checkIsFile = async (sourcePath) => {
   const pathStats = await getPathStats(sourcePath);
-  return pathStats.isFile();
+  if (!pathStats.isFile()) throw new Error(ERRORS_MESSAGES.INPUT);
 }
 
 export const checkIsDirectory = async (sourcePath) => {
   const pathStats = await getPathStats(sourcePath);
-  return pathStats.isDirectory();
+  if (!pathStats.isDirectory()) throw new Error(ERRORS_MESSAGES.INPUT);
 } 
 
 export { getAbsolutePath };

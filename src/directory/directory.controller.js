@@ -5,7 +5,6 @@ import { listDirectory } from './utils/listDir.js';
 
 import { checkIsDirectory } from '../helpers/helper.js';
 import { getDirectoryContent, getAbsolutePath } from './helpers/directory.helper.js';
-import { ERRORS_MESSAGES } from '../constants/constants.js';
 
 const CURRENT_DIRECTORY_PREFIX = 'You are currently in';
 
@@ -16,7 +15,7 @@ export class DirectoryController {
 
   setNewCurrentDirectory = async (newPath) => {
     const absoluteNewPath = getAbsolutePath(newPath, this.currentDirectory);
-    if (!(await checkIsDirectory(absoluteNewPath))) throw new Error(ERRORS_MESSAGES.OPERATION);
+    await checkIsDirectory(absoluteNewPath);
     this.currentDirectory = absoluteNewPath;
   }
 
