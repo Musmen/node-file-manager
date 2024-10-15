@@ -2,7 +2,7 @@ import { Transform } from 'node:stream';
 
 import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
-import { readFileToConsole, createFile } from '../fs-operations/index.js';
+import { readFileToConsole, createFile, renameFile } from '../fs-operations/index.js';
 
 const COMMANDS = {
   EXIT: '.exit',
@@ -11,6 +11,7 @@ const COMMANDS = {
   LIST_DIR: 'ls',
   COPY_FILE: 'cat',
   CREATE_FILE: 'add',
+  RENAME_FILE: 'rn',
 }
 
 class Controller extends Transform {
@@ -40,6 +41,9 @@ class Controller extends Transform {
           break;
         case COMMANDS.CREATE_FILE:
           await createFile(firstArg, directoryController.getCurrentDirectory());
+          break;
+        case COMMANDS.RENAME_FILE:
+          await renameFile(firstArg, secondArg, directoryController.getCurrentDirectory());
           break;
       }
     } catch(error) {
