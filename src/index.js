@@ -10,4 +10,4 @@ directoryController.printCurrentDirectory();
 process.on('exit', () => printUserGoodbye());
 process.on('SIGINT', () => process.exit());
 
-await pipeline(process.stdin, controller, process.stdout);
+await pipeline(process.stdin, controller);

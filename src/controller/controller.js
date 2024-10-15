@@ -2,12 +2,14 @@ import { Transform } from 'node:stream';
 
 import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
+import { readFileToConsole } from '../fs-operations/index.js';
 
 const COMMANDS = {
   EXIT: '.exit',
   UP_DIR: 'up',
   CHANGE_DIR: 'cd',
   LIST_DIR: 'ls',
+  COPY_FILE: 'cat',
 }
 
 class Controller extends Transform {
@@ -20,17 +22,20 @@ class Controller extends Transform {
       const { command, firstArg, secondArg } = parseUserCliCommand(chunk);
 
       switch (command) {
-        case COMMANDS.EXIT: 
+        case COMMANDS.EXIT:
           process.exit();
           break;
         case COMMANDS.UP_DIR:
           await directoryController.upDirectory();
           break;
-        case COMMANDS.CHANGE_DIR: 
+        case COMMANDS.CHANGE_DIR:
           await directoryController.setNewCurrentDirectory(firstArg);
           break;
-        case COMMANDS.LIST_DIR: 
+        case COMMANDS.LIST_DIR:
           await directoryController.listSortedDirectory();
+          break;
+        case COMMANDS.COPY_FILE:
+          await readFileToConsole(firstArg, directoryController.getCurrentDirectory());
           break;
       }
     } catch(error) {
