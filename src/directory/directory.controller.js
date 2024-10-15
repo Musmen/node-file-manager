@@ -1,9 +1,9 @@
 import path from 'node:path';
-import { stat as fsPromisesStat } from 'node:fs/promises';
 
 import { getSortedDirContent } from './utils/sortDir.js';
 import { listDirectory } from './utils/listDir.js';
 
+import { checkIsDirectory } from '../helpers/helper.js';
 import { getDirectoryContent, getAbsolutePath } from './helpers/directory.helper.js';
 import { ERRORS_MESSAGES } from '../constants/constants.js';
 
@@ -16,7 +16,7 @@ export class DirectoryController {
 
   setNewCurrentDirectory = async (newPath) => {
     const absoluteNewPath = getAbsolutePath(newPath, this.currentDirectory);
-    if (!(await fsPromisesStat(absoluteNewPath)).isDirectory()) throw new Error(ERRORS_MESSAGES.OPERATION);
+    if (!(await checkIsDirectory(absoluteNewPath))) throw new Error(ERRORS_MESSAGES.OPERATION);
     this.currentDirectory = absoluteNewPath;
   }
 
