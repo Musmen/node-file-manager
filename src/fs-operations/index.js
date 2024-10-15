@@ -1,2 +1,4 @@
 import { readFileToConsole } from './readFile.js';
-export { readFileToConsole };
+import { createFile } from './createFile.js';
+
+export { readFileToConsole, createFile };

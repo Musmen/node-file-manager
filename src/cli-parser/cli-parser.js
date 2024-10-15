@@ -1,8 +1,9 @@
+import { ERRORS_MESSAGES } from '../constants/constants.js';
+
 const SPACE = ' ';
 const COMMAND_DELIMITER = SPACE;
 const DEFAULT_ARGS_DELIMITER = SPACE;
 const SPECIAL_ARGS_DELIMITERS = [ '"', '\''];
-const INPUT_ERROR = 'Invalid input';
 
 const parseArgumentsString = (argsString) => {
   const args = [];
@@ -19,7 +20,7 @@ const parseArgumentsString = (argsString) => {
 
     if (SPECIAL_ARGS_DELIMITERS.includes(char)) {
       if (delimiterIsOpen()) {
-        if (openDelimiter !== char) throw new Error(INPUT_ERROR);
+        if (openDelimiter !== char) throw new Error(ERRORS_MESSAGES.INPUT);
         openDelimiter = '';
         return;
       }

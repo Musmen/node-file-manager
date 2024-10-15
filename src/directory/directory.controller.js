@@ -3,10 +3,11 @@ import { stat as fsPromisesStat } from 'node:fs/promises';
 
 import { getSortedDirContent } from './utils/sortDir.js';
 import { listDirectory } from './utils/listDir.js';
+
 import { getDirectoryContent, getAbsoluteNewPath } from './helpers/directory.helper.js';
+import { ERRORS_MESSAGES } from '../constants/constants.js';
 
 const CURRENT_DIRECTORY_PREFIX = 'You are currently in';
-const OPERATION_ERROR = 'Operation failed';
 
 export class DirectoryController {
   currentDirectory = process.env.HOME;
@@ -15,7 +16,7 @@ export class DirectoryController {
 
   setNewCurrentDirectory = async (newPath) => {
     const absoluteNewPath = await getAbsoluteNewPath(newPath, this.currentDirectory);
-    if (!(await fsPromisesStat(absoluteNewPath)).isDirectory()) throw new Error(OPERATION_ERROR);
+    if (!(await fsPromisesStat(absoluteNewPath)).isDirectory()) throw new Error(ERRORS_MESSAGES.OPERATION);
     this.currentDirectory = absoluteNewPath;
   }
 
