@@ -2,7 +2,7 @@ import { Transform } from 'node:stream';
 
 import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
-import { readFileToConsole, createFile, renameFile, copyFile, deleteFile } from '../fs-operations/index.js';
+import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFile } from '../fs-operations/index.js';
 
 const COMMANDS = {
   EXIT: '.exit',
@@ -17,6 +17,7 @@ const COMMANDS = {
     RENAME: 'rn',
     COPY: 'cp',
     DELETE: 'rm',
+    MOVE: 'mv'
   }
 }
 
@@ -57,9 +58,12 @@ class Controller extends Transform {
         case COMMANDS.FILE.DELETE:
           await deleteFile(firstArg, directoryController.getCurrentDirectory());
           break;
+        case COMMANDS.FILE.MOVE:
+          await moveFile(firstArg, secondArg, directoryController.getCurrentDirectory());
+          break;
       }
     } catch(error) {
-      console.error(error.message);
+      console.error(error);
     } finally {
       directoryController.printCurrentDirectory();
       callback(null, chunk);
