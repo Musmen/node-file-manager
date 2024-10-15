@@ -1,0 +1,33 @@
+import path from 'node:path';
+import { stat as fsPromisesStat } from 'node:fs/promises';
+
+import { getSortedDirContent } from './utils/sortDir.js';
+import { listDirectory } from './utils/listDir.js';
+import { getDirectoryContent, getAbsoluteNewPath } from './helpers/directory.helper.js';
+
+const CURRENT_DIRECTORY_PREFIX = 'You are currently in';
+const OPERATION_ERROR = 'Operation failed';
+
+export class DirectoryController {
+  currentDirectory = process.env.HOME;
+
+  getCurrentDirectory = () => this.currentDirectory;
+
+  setNewCurrentDirectory = async (newPath) => {
+    const absoluteNewPath = await getAbsoluteNewPath(newPath, this.currentDirectory);
+    if (!(await fsPromisesStat(absoluteNewPath)).isDirectory()) throw new Error(OPERATION_ERROR);
+    this.currentDirectory = absoluteNewPath;
+  }
+
+  upDirectory = async () => await setNewCurrentDirectory(path.dirname(this.currentDirectory));
+
+  printCurrentDirectory = () => console.log(`${CURRENT_DIRECTORY_PREFIX} ${this.currentDirectory}`);
+
+  listSortedDirectory = async (dirPath = this.currentDirectory) => {
+    const dirContent = await getDirectoryContent(dirPath);
+    const sortedDirContent = getSortedDirContent(dirContent);
+    listDirectory(sortedDirContent);
+  }
+}
+
+export const directoryController = new DirectoryController();

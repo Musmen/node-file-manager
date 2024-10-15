@@ -1,11 +1,11 @@
 import { pipeline } from 'node:stream/promises';
 
 import { printUserGreetings, printUserGoodbye } from './user/user.js';
-import { printCurrentDirectory } from './directory/directory.js';
+import { directoryController } from './directory/directory.controller.js';
 import { controller } from './controller/controller.js';
 
 printUserGreetings();
-printCurrentDirectory();
+directoryController.printCurrentDirectory();
 
 process.on('exit', () => printUserGoodbye());
 process.on('SIGINT', () => process.exit());

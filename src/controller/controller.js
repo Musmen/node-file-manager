@@ -1,6 +1,6 @@
 import { Transform } from 'node:stream';
 
-import { printCurrentDirectory, upDirectory, setCurrentDirectory, listSortedDir } from '../directory/directory.js';
+import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
 
 const COMMANDS = {
@@ -24,19 +24,19 @@ class Controller extends Transform {
           process.exit();
           break;
         case COMMANDS.UP_DIR:
-          await upDirectory();
+          await directoryController.upDirectory();
           break;
         case COMMANDS.CHANGE_DIR: 
-          await setCurrentDirectory(firstArg);
+          await directoryController.setNewCurrentDirectory(firstArg);
           break;
         case COMMANDS.LIST_DIR: 
-          await listSortedDir();
+          await directoryController.listSortedDirectory();
           break;
       }
     } catch(error) {
-      console.log(error.message);
+      console.error(error.message);
     } finally {
-      printCurrentDirectory();
+      directoryController.printCurrentDirectory();
       callback(null, chunk);
     }
   }
