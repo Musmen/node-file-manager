@@ -6,7 +6,7 @@ export const getDirectoryContent = async (path) => {
   return dirContent;
 }
 
-export const getAbsoluteNewPath = async (newPath, currentDirectory) => {
+export const getAbsolutePath = async (newPath, currentDirectory) => {
   const normalizedPath = path.normalize(newPath);
   const resolvedPath = (path.resolve(newPath) === normalizedPath)
     ? normalizedPath
