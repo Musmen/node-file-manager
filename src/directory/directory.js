@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { realpath as fsPromisesRealpath, readdir as fsPromisesReaddir } from 'node:fs/promises'
+import { realpath as fsPromisesRealpath, readdir as fsPromisesReaddir, stat as fsPromisesStat } from 'node:fs/promises'
 
 export let currentDirectory = process.env.HOME;
 
@@ -10,11 +10,13 @@ export const printCurrentDirectory =
 
 export const setCurrentDirectory = async (newPath) => {
   const normalizedPath = path.normalize(newPath);
-  const resolvedPath = path.isAbsolute(normalizedPath)
+  const resolvedPath = (path.resolve(newPath) === normalizedPath)
     ? normalizedPath
     : path.join(currentDirectory, normalizedPath);
 
-  currentDirectory = await fsPromisesRealpath(resolvedPath);
+  const newDirectoryPath = await fsPromisesRealpath(resolvedPath);
+  if (!(await fsPromisesStat(newDirectoryPath)).isDirectory()) throw new Error('Operation failed');
+  currentDirectory = newDirectoryPath;
 }
 
 export const upDirectory = async () => await setCurrentDirectory(path.dirname(currentDirectory));

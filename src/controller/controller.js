@@ -17,7 +17,7 @@ class Controller extends Transform {
 
   async _transform(chunk, _, callback) {
     try {
-      const { command, argument } = parseUserCliCommand(chunk);
+      const { command, firstArg, secondArg } = parseUserCliCommand(chunk);
 
       switch (command) {
         case COMMANDS.EXIT: 
@@ -27,7 +27,7 @@ class Controller extends Transform {
           await upDirectory();
           break;
         case COMMANDS.CHANGE_DIR: 
-          await setCurrentDirectory(argument);
+          await setCurrentDirectory(firstArg);
           break;
         case COMMANDS.LIST_DIR: 
           await listSortedDir();
