@@ -15,3 +15,5 @@ export const EOL = {
 export const MHz_IN_GHz = 1000;
 
 export const GHz_POSTFIX = 'GHz';
+
+export const CLOCK_RATE_DECIMAL_PLACES = 2;
