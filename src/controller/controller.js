@@ -3,6 +3,7 @@ import { Transform } from 'node:stream';
 import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
 import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFile } from '../fs-operations/index.js';
+import { hashCalc } from '../hash/hash.js';
 
 const COMMANDS = {
   EXIT: '.exit',
@@ -18,7 +19,8 @@ const COMMANDS = {
     COPY: 'cp',
     DELETE: 'rm',
     MOVE: 'mv'
-  }
+  }, 
+  HASH: 'hash'
 }
 
 class Controller extends Transform {
@@ -60,6 +62,9 @@ class Controller extends Transform {
           break;
         case COMMANDS.FILE.MOVE:
           await moveFile(firstArg, secondArg, directoryController.getCurrentDirectory());
+          break;
+        case COMMANDS.HASH:
+          await hashCalc(firstArg, directoryController.getCurrentDirectory());
           break;
       }
     } catch(error) {
