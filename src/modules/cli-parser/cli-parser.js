@@ -1,4 +1,4 @@
-import { ERRORS_MESSAGES } from '../constants/constants.js';
+import { ERRORS_MESSAGES } from '../../common/constants/constants.js';
 
 const SPACE = ' ';
 const COMMAND_DELIMITER = SPACE;

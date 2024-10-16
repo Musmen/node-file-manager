@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { rename as fsPromisesRename } from 'node:fs/promises';
 
-import { getAbsolutePath, checkFileName, checkIsFile } from '../helpers/helper.js';
+import { getAbsolutePath, checkFileName, checkIsFile } from '../../../common/helpers/helper.js';
 
 export const renameFile = async (filePath, newFileName, currentDirectory) => {
   checkFileName(newFileName);

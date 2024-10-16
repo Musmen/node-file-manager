@@ -2,7 +2,7 @@ import { open as fsPromisesOpen } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { createBrotliCompress } from 'node:zlib';
 
-import { getAbsolutePath } from '../helpers/helper.js';
+import { getAbsolutePath } from '../../common/helpers/helper.js';
 
 export const compress = async (sourceFilePath, destinationFilePath, currentDirectory) => {
   let sourceFh, destinationFh;

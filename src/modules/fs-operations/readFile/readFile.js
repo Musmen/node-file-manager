@@ -1,7 +1,7 @@
 import { open as fsPromisesOpen } from 'node:fs/promises';
 import { finished } from 'node:stream/promises';
 
-import { getAbsolutePath, consoleLogChankInUtf8 } from '../helpers/helper.js';
+import { getAbsolutePath, consoleLogChankInUtf8 } from '../../../common/helpers/helper.js';
 
 export const readFileToConsole = async (filePath, currentDirectory) => {
   let fh;

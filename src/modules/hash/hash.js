@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
-import { getAbsolutePath, consoleLogChankInUtf8 } from '../helpers/helper.js';
+import { getAbsolutePath, consoleLogChankInUtf8 } from '../../common/helpers/helper.js';
 
 const HASH_ALGORITHM = 'sha256';
 const ENCODING_TYPE = 'hex';

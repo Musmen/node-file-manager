@@ -1,11 +1,11 @@
 import { Transform } from 'node:stream';
 
-import { directoryController } from '../directory/directory.controller.js';
-import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
-import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFile } from '../fs-operations/index.js';
-import { hashCalc } from '../hash/hash.js';
-import { compress } from '../archive/compress.js';
-import { decompress } from '../archive/decompress.js';
+import { directoryController } from '../modules/directory/directory.controller.js';
+import { parseUserCliCommand } from '../modules/cli-parser/cli-parser.js';
+import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFile } from '../modules/fs-operations/index.js';
+import { hashCalc } from '../modules/hash/hash.js';
+import { compress } from '../modules/archive/compress.js';
+import { decompress } from '../modules/archive/decompress.js';
 
 const COMMANDS = {
   EXIT: '.exit',

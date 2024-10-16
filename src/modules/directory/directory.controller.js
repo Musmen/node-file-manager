@@ -3,7 +3,7 @@ import path from 'node:path';
 import { getSortedDirContent } from './utils/sortDir.js';
 import { listDirectory } from './utils/listDir.js';
 
-import { checkIsDirectory } from '../helpers/helper.js';
+import { checkIsDirectory } from '../../common/helpers/helper.js';
 import { getDirectoryContent, getAbsolutePath } from './helpers/directory.helper.js';
 
 const CURRENT_DIRECTORY_PREFIX = 'You are currently in';

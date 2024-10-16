@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { stat as fsPromisesStat } from 'node:fs/promises';
 
-import { getAbsolutePath } from '../directory/helpers/directory.helper.js';
-import { ERRORS_MESSAGES } from '../constants/constants.js';
+import { getAbsolutePath } from '../../modules/directory/helpers/directory.helper.js';
+import { ERRORS_MESSAGES } from '../../common/constants/constants.js';
 
 export const consoleLogChankInUtf8 = (chank) => console.log(chank.toString('utf8'));
 
