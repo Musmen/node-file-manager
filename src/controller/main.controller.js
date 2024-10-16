@@ -6,6 +6,9 @@ import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFi
 import { hashCalc } from '../modules/hash/hash.js';
 import { compress } from '../modules/archive/compress.js';
 import { decompress } from '../modules/archive/decompress.js';
+import { osController } from '../modules/os/os.controller.js';
+
+import { ERRORS_MESSAGES } from '../common/constants/constants.js';
 
 const COMMANDS = {
   EXIT: '.exit',
@@ -24,7 +27,8 @@ const COMMANDS = {
   }, 
   HASH: 'hash',
   COMPRESS: 'compress',
-  DECOMPRESS: 'decompress'
+  DECOMPRESS: 'decompress',
+  OS: 'os'
 }
 
 class Controller extends Transform {
@@ -76,9 +80,14 @@ class Controller extends Transform {
         case COMMANDS.DECOMPRESS:
           await decompress(firstArg, secondArg, directoryController.getCurrentDirectory());
           break;
+        case COMMANDS.OS:
+          await osController(firstArg);
+          break;
+        default:
+          console.error(ERRORS_MESSAGES.INPUT);
       }
-    } catch(error) {
-      console.error(error);
+    } catch {
+      console.error(ERRORS_MESSAGES.OPERATION);
     } finally {
       directoryController.printCurrentDirectory();
       callback(null, chunk);
