@@ -4,6 +4,7 @@ import { directoryController } from '../directory/directory.controller.js';
 import { parseUserCliCommand } from '../cli-parser/cli-parser.js';
 import { readFileToConsole, createFile, renameFile, copyFile, deleteFile, moveFile } from '../fs-operations/index.js';
 import { hashCalc } from '../hash/hash.js';
+import { compress } from '../archive/compress.js';
 
 const COMMANDS = {
   EXIT: '.exit',
@@ -20,7 +21,8 @@ const COMMANDS = {
     DELETE: 'rm',
     MOVE: 'mv'
   }, 
-  HASH: 'hash'
+  HASH: 'hash',
+  COMPRESS: 'compress',
 }
 
 class Controller extends Transform {
@@ -65,6 +67,9 @@ class Controller extends Transform {
           break;
         case COMMANDS.HASH:
           await hashCalc(firstArg, directoryController.getCurrentDirectory());
+          break;
+        case COMMANDS.COMPRESS:
+          await compress(firstArg, secondArg, directoryController.getCurrentDirectory());
           break;
       }
     } catch(error) {
