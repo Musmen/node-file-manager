@@ -1,13 +1,24 @@
-const USER_NAME_ARGUMENT_PREFIX = '--username=';
-const FIRST_USER_ARGUMENTS_INDEX = 2;
-const FIRST_USER_INDEX = 0;
+import { parseArgs } from 'node:util';
 
-const getUserName = () => process.argv
-  .slice(FIRST_USER_ARGUMENTS_INDEX)
-  .filter(argument => argument.startsWith(USER_NAME_ARGUMENT_PREFIX))
-  .map(argument => argument.slice(USER_NAME_ARGUMENT_PREFIX.length))[FIRST_USER_INDEX];
+import { ERRORS_MESSAGES } from '../../common/constants/constants.js';
 
-export const currentUserName = getUserName();
+const DEFAULT_USER_NAME = 'User';
+
+const PARSE_ARGS_OPTIONS = {
+  username: { 
+    type: 'string', 
+    default: DEFAULT_USER_NAME
+  }
+};
+
+export let currentUserName = DEFAULT_USER_NAME;
+
+try {
+  const { values } = parseArgs({ options: PARSE_ARGS_OPTIONS });
+  currentUserName = values.username;
+} catch {
+  console.error(ERRORS_MESSAGES.INPUT);
+}
 
 const USER_GREETINGS_PREFIX = 'Welcome to the File Manager';
 
