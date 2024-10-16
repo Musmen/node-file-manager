@@ -5,13 +5,22 @@ import path from 'node:path';
 import { getAbsolutePath } from '../helpers/helper.js';
 
 export const copyFile = async (sourceFilePath, destinationDirPath, currentDirectory) => {
-  const absoluteSourceFilePath = getAbsolutePath(sourceFilePath, currentDirectory);
-  const sourceFh = await fsPromisesOpen(absoluteSourceFilePath);
-  const readStream = await sourceFh.createReadStream();
+  let sourceFh, destinationFh;
+  
+  try {
+    const absoluteSourceFilePath = getAbsolutePath(sourceFilePath, currentDirectory);
+    sourceFh = await fsPromisesOpen(absoluteSourceFilePath);
+    const readStream = await sourceFh.createReadStream();
 
-  const absoluteDestinationFilePath = getAbsolutePath(path.join(destinationDirPath, path.basename(sourceFilePath)), currentDirectory);
-  const destinationFh = await fsPromisesOpen(absoluteDestinationFilePath, 'wx');
-  const writeStream = await destinationFh.createWriteStream();
+    const absoluteDestinationFilePath = getAbsolutePath(path.join(destinationDirPath, path.basename(sourceFilePath)), currentDirectory);
+    destinationFh = await fsPromisesOpen(absoluteDestinationFilePath, 'wx');
+    const writeStream = await destinationFh.createWriteStream();
 
-  return pipeline(readStream, writeStream);
+    await pipeline(readStream, writeStream);
+  } catch(error) {
+    throw new Error(error);
+  } finally {
+    sourceFh && sourceFh.close();
+    destinationFh && destinationFh.close();
+  }
 }

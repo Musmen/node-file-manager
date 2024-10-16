@@ -9,22 +9,30 @@ const HASH_ALGORITHM = 'sha256';
 const ENCODING_TYPE = 'hex';
 
 export const hashCalc = async (filePath, currentDirectory) => {
-  const absoluteFilePath = getAbsolutePath(filePath, currentDirectory);
-  const fh = await fsPromisesOpen(absoluteFilePath);
-  const readStream = await fh.createReadStream();
+  let fh;
+  
+  try {
+    const absoluteFilePath = getAbsolutePath(filePath, currentDirectory);
+    fh = await fsPromisesOpen(absoluteFilePath);
+    const readStream = await fh.createReadStream();
 
-  const transformStream = createHash(HASH_ALGORITHM).setEncoding(ENCODING_TYPE);
+    const transformStream = createHash(HASH_ALGORITHM).setEncoding(ENCODING_TYPE);
 
-  const writeStream = new Writable({
-    write(chunk, _, callback) {
-      try {
-        consoleLogChankInUtf8(chunk);
-        callback();
-      } catch(error) {
-        callback(error);
-      }
-    },
-  })
-
-  await pipeline(readStream, transformStream, writeStream);
+    const writeStream = new Writable({
+      write(chunk, _, callback) {
+        try {
+          consoleLogChankInUtf8(chunk);
+          callback();
+        } catch(error) {
+          callback(error);
+        }
+      },
+    });
+    
+    await pipeline(readStream, transformStream, writeStream);
+  } catch(error) {
+    throw new Error(error)
+  } finally {
+    fh && fh.close();
+  }
 }
