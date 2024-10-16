@@ -9,27 +9,7 @@ import { decompress } from '../modules/archive/decompress.js';
 import { osController } from '../modules/os/os.controller.js';
 
 import { ERRORS_MESSAGES } from '../common/constants/constants.js';
-
-const COMMANDS = {
-  EXIT: '.exit',
-  DIR: {
-    UP: 'up',
-    CHANGE: 'cd',
-    LIST: 'ls'
-  },
-  FILE: {
-    READ: 'cat',
-    CREATE: 'add',
-    RENAME: 'rn',
-    COPY: 'cp',
-    DELETE: 'rm',
-    MOVE: 'mv'
-  }, 
-  HASH: 'hash',
-  COMPRESS: 'compress',
-  DECOMPRESS: 'decompress',
-  OS: 'os'
-}
+import { COMMANDS } from './constants/commands.js';
 
 class Controller extends Transform {
   constructor() {
@@ -39,6 +19,7 @@ class Controller extends Transform {
   async _transform(chunk, _, callback) {
     try {
       const { command, firstArg, secondArg } = parseUserCliCommand(chunk);
+      const currentDirectory = directoryController.getCurrentDirectory();
 
       switch (command) {
         case COMMANDS.EXIT:
@@ -54,31 +35,31 @@ class Controller extends Transform {
           await directoryController.listSortedDirectory();
           break;
         case COMMANDS.FILE.READ:
-          await readFileToConsole(firstArg, directoryController.getCurrentDirectory());
+          await readFileToConsole(firstArg, currentDirectory);
           break;
         case COMMANDS.FILE.CREATE:
-          await createFile(firstArg, directoryController.getCurrentDirectory());
+          await createFile(firstArg, currentDirectory);
           break;
         case COMMANDS.FILE.RENAME:
-          await renameFile(firstArg, secondArg, directoryController.getCurrentDirectory());
+          await renameFile(firstArg, secondArg, currentDirectory);
           break;
         case COMMANDS.FILE.COPY:
-          await copyFile(firstArg, secondArg, directoryController.getCurrentDirectory());
+          await copyFile(firstArg, secondArg, currentDirectory);
           break;
         case COMMANDS.FILE.DELETE:
-          await deleteFile(firstArg, directoryController.getCurrentDirectory());
+          await deleteFile(firstArg, currentDirectory);
           break;
         case COMMANDS.FILE.MOVE:
-          await moveFile(firstArg, secondArg, directoryController.getCurrentDirectory());
+          await moveFile(firstArg, secondArg, currentDirectory);
           break;
         case COMMANDS.HASH:
-          await hashCalc(firstArg, directoryController.getCurrentDirectory());
+          await hashCalc(firstArg, currentDirectory);
           break;
         case COMMANDS.COMPRESS:
-          await compress(firstArg, secondArg, directoryController.getCurrentDirectory());
+          await compress(firstArg, secondArg, currentDirectory);
           break;
         case COMMANDS.DECOMPRESS:
-          await decompress(firstArg, secondArg, directoryController.getCurrentDirectory());
+          await decompress(firstArg, secondArg, currentDirectory);
           break;
         case COMMANDS.OS:
           await osController(firstArg);
