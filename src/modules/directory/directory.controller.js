@@ -19,7 +19,7 @@ export class DirectoryController {
     this.currentDirectory = absoluteNewPath;
   }
 
-  upDirectory = async () => await setNewCurrentDirectory(path.dirname(this.currentDirectory));
+  upDirectory = async () => await this.setNewCurrentDirectory(path.dirname(this.currentDirectory));
 
   printCurrentDirectory = () => console.log(`${CURRENT_DIRECTORY_PREFIX} ${this.currentDirectory}`);
 
